@@ -3,9 +3,12 @@ try :
 except ImportError :
     print (" This computer does not appear to be a PiCar - X system(/ opt / ezblock is not present ) . Shadowing hardware calls with substitute functions ")
     from sim_ezblock import *
+from ezblock import __reset_mcu__
+__reset_mcu__()
+
 import time
 import atexit
-
+time.sleep(0.01)
 
 PERIOD = 4095
 PRESCALER = 10
@@ -39,6 +42,8 @@ for pin in motor_speed_pins:
 def set_motor_speed(motor, speed):
     global cali_speed_value,cali_dir_value
     motor -= 1
+    if motor==1:
+        speed*=0.9
     if speed >= 0:
         direction = 1 * cali_dir_value[motor]
     elif speed < 0:
@@ -81,8 +86,7 @@ def dir_servo_angle_calibration(value):
 
 def set_dir_servo_angle(value):
     global dir_cal_value
-    dir_servo_pin.angle(value+dir_cal_value)
-
+    dir_servo_pin.angle(value+5)
 def camera_servo1_angle_calibration(value):
     global cam_cal_value_1
     cam_cal_value_1 = value
@@ -118,9 +122,11 @@ def backward(speed):
     set_motor_speed(1, speed)
     set_motor_speed(2, speed)
 
-def forward(speed):
-    set_motor_speed(1, -1*speed)
-    set_motor_speed(2, -1*speed)
+def forward(speed,angle,t):
+    set_dir_servo_angle(angle)
+    set_motor_speed(1, 0) #right
+    set_motor_speed(2, speed) #left
+    time.sleep(t)
 
 def stop():
     set_motor_speed(1, 0)
@@ -154,14 +160,12 @@ def Get_distance():
     return cm
      
 def test():
-    dir_servo_angle_calibration(-10) 
-    set_dir_servo_angle(-40)
-    time.sleep(1)
+    #dir_servo_angle_calibration(-10) 
+    #set_dir_servo_angle(-40)
+    
     set_dir_servo_angle(0)
     time.sleep(1)
-    set_motor_speed(1, 1)
-    set_motor_speed(2, 1)
-    camera_servo_pin1.angle(0)
+    
 
 def motor_stop():
     set_motor_speed(1, 0)

@@ -8,6 +8,8 @@ __reset_mcu__()
 
 import time
 import atexit
+import math
+
 time.sleep(0.01)
 
 PERIOD = 4095
@@ -124,8 +126,25 @@ def backward(speed):
 
 def forward(speed,angle,t):
     set_dir_servo_angle(angle)
-    set_motor_speed(1, 0) #right
-    set_motor_speed(2, speed) #left
+    if angle==0:
+        set_motor_speed(1, speed) #right
+        set_motor_speed(2, speed) #left
+
+    else:
+        ang=math.radians(angle)
+        dir=angle/abs(angle)
+        ang=abs(ang)
+        adj=10.0/math.tan(ang)
+        scale=(adj-6.0)/(adj+6.0)
+        print(dir,scale)
+    
+        if dir>0:
+            set_motor_speed(1, speed*scale) #right
+            set_motor_speed(2, speed) #left
+        else:
+            set_motor_speed(1, speed) #right
+            set_motor_speed(2, speed*scale) #left
+
     time.sleep(t)
 
 def stop():
@@ -158,22 +177,72 @@ def Get_distance():
     cm = round(during * 340 / 2 * 100, 2)
     #print(cm)
     return cm
-     
+
+def parallel(dir):
+    forward(90,20*dir,0.5)    
+    forward(90,-15*dir,0.7)
+    forward(-90,0,1.2)
+def kturn(dir):
+    forward(90,40*dir,1.0)    
+    forward(-90,-40*dir,1.0)
+    forward(90,0,1.0)
+
+def tricks():
+    print("1) turn left")
+    print("2) turn right")
+    print("3) forward")
+    print("4) reverse")
+    print("5) parallel left")
+    print("6) parallel right")
+    print("7) kturn left")
+    print("8) kturn right")
+    x=input(" ")
+    
+    if x=="1":
+        forward(80,-20,2)
+        return 1 
+    if x=="2":
+        forward(80,20,2)
+        return 2 
+    if x=="3":
+        forward(80,0,2)
+        return 3 
+    if x=="4":
+        forward(-80,0,2)
+        return 4 
+    if x=="5":
+        parallel(-1.0)
+        return 5  
+    if x=="6":
+        parallel(1.0)
+        return 6 
+    if x=="7":
+        kturn(-1.0)
+        return 7 
+    if x=="8":
+        kturn(1.0)
+        return 8 
+    return 0
+
+
 def test():
     #dir_servo_angle_calibration(-10) 
     #set_dir_servo_angle(-40)
     
     set_dir_servo_angle(0)
     time.sleep(1)
-    
-
+    kturn(-1)
 def motor_stop():
     set_motor_speed(1, 0)
     set_motor_speed(2, 0)
+    set_dir_servo_angle(0)
 
 
 atexit.register(motor_stop)
-test()
+#test()
+while tricks() != 0:
+    motor_stop()
+
 # if __name__ == "__main__":
 #     try:
 #         # dir_servo_angle_calibration(-10) 

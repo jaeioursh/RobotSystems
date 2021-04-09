@@ -10,6 +10,7 @@ import time
 import atexit
 import math
 
+
 time.sleep(0.01)
 
 
@@ -47,6 +48,8 @@ class Motor():
         for pin in self.motor_speed_pins:
             pin.period(PERIOD)
             pin.prescaler(PRESCALER)
+
+        atexit.register(self.cleanup)
 
     def set_motor_speed(self,motor, speed):
        
@@ -120,7 +123,9 @@ class Motor():
     def stop(self):
         self.set_motor_speed(1, 0)
         self.set_motor_speed(2, 0)
-
+        
+    def cleanup(self):
+        self.stop()
 
     def Get_distance(self):
         timeout=0.01

@@ -24,11 +24,11 @@ class Sensor:
 
 class Interpretor:
 
-    def __init__(self, sensitivity, polarity)
+    def __init__(self, sensitivity, polarity):
         self.sen=sensitivity
         self.pol=polarity
 
-    def transform(self, vals)
+    def transform(self, vals):
         vals=np.array(vals)
         mid=(mp.max(vals)+np.min(vals))/2
         vals-=mid                                   #shift values down to be centered around zero

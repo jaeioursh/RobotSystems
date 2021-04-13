@@ -30,7 +30,7 @@ class Interpretor:
 
     def transform(self, vals):
         vals=np.array(vals)
-        mid=(mp.max(vals)+np.min(vals))/2
+        mid=(np.max(vals)+np.min(vals))/2
         vals-=mid                                   #shift values down to be centered around zero
         vals+=self.sen/2                            #shift values up to be in sensitivity range
         vals[vals>self.sen]=self.sen                #clip values outside of sensitivity range

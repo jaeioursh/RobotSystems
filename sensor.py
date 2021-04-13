@@ -22,7 +22,7 @@ class Sensor:
         return [self.adc_A0.read(), self.adc_A1.read(), self.adc_A2.read()]
 
 if __name__=="__main__":
-    sensor=Sensor
+    sensor=Sensor()
     while 1:
         print(sensor.read_ground())
         time.sleep(0.5)

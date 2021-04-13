@@ -4,7 +4,7 @@ import time
 __reset_mcu__()
 time.sleep(0.01)
 from ezblock import ADC
-from ezblock import print
+#from ezblock import print
 
 
 class Sensor:

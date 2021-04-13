@@ -29,8 +29,8 @@ class Interpretor:
         self.pol=polarity
 
     def transform(self, vals):
-        vals=np.array(vals)
-        mid=(np.max(vals)+np.min(vals))/2
+        vals=np.array(vals,dtype=float)
+        mid=(np.max(vals)+np.min(vals))/2.0
         vals-=mid                                   #shift values down to be centered around zero
         vals+=self.sen/2                            #shift values up to be in sensitivity range
         vals[vals>self.sen]=self.sen                #clip values outside of sensitivity range

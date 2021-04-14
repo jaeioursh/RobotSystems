@@ -6,10 +6,10 @@ from sensor import Sensor, Interpretor
 from motor import Motor
 
 
+#from vilib import Vilib
+#Vilib.camera_start(True)
+#Vilib.color_detect_switch(True)
 
-Vilib.camera_start(True)
-Vilib.color_detect_switch(True)
-from vilib import Vilib
 
 #from ezblock import ADC
 #from ezblock import print

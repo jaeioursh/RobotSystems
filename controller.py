@@ -31,4 +31,4 @@ if __name__=="__main__":
     __reset_mcu__()
     time.sleep(0.01)
     controller=Controller(20)
-    
+    controller.run()

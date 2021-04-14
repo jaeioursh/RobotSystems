@@ -14,7 +14,7 @@ from motor import Motor
 #from ezblock import ADC
 #from ezblock import print
 
-class controller:
+class Controller:
     def __init__(self,scale):
         self.scale=scale
         self.sensor=Sensor()
@@ -25,10 +25,10 @@ class controller:
         while 1:
             val=self.sensor.read_ground()
             val=self.inter.transform(val)
-            self.motor.forward(60,val*self.scale,0.5)
+            self.motor.forward(70,val*self.scale,0.5)
 
 if __name__=="__main__":
     __reset_mcu__()
     time.sleep(0.01)
-    
+    controller=Controller(20)
     

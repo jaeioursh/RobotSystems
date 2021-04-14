@@ -4,18 +4,15 @@ except ImportError :
     print (" This computer does not appear to be a PiCar - X system(/ opt / ezblock is not present ) . Shadowing hardware calls with substitute functions ")
     from sim_ezblock import *
 from ezblock import __reset_mcu__
-__reset_mcu__()
+
 
 import time
 import atexit
 import math
 
 
-time.sleep(0.01)
 
-
-
-class Motor():
+class Motor:
     def __init__(self)
 
         self.DRIVE_SCALE=0.9
@@ -155,7 +152,10 @@ class Motor():
 
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    __reset_mcu__()
+    time.sleep(0.01)
+
 #     try:
 #         # dir_servo_angle_calibration(-10) 
 #         while 1:

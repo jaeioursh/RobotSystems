@@ -1,8 +1,7 @@
 from ezblock import __reset_mcu__
 import numpy as np
 import time
-__reset_mcu__()
-time.sleep(0.01)
+
 from ezblock import ADC
 #from ezblock import print
 
@@ -41,6 +40,8 @@ class Interpretor:
         return -1.0*vals[0]+vals[2]
 
 if __name__=="__main__":
+    __reset_mcu__()
+    time.sleep(0.01)
     sensor=Sensor()
     inter=Interpretor(500,1.0)
     while 1:

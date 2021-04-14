@@ -13,7 +13,7 @@ import math
 
 
 class Motor:
-    def __init__(self)
+    def __init__(self):
 
         self.DRIVE_SCALE=0.9
         self.DIRECTION_OFFSET=5

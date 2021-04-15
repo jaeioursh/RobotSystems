@@ -26,7 +26,11 @@ class Controller:
             val=self.sensor.read_ground()
             val=self.inter.transform(val)
             self.motor.forward(50,-1.0*val*self.scale,0.5)
-
+    def run_camera(self):
+        
+        while 1:
+            val=camera.read()
+            self.motor.forward(50,-1.0*val*self.scale,0.5)
 if __name__=="__main__":
     __reset_mcu__()
     time.sleep(0.01)

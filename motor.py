@@ -122,6 +122,9 @@ class Motor:
         self.set_motor_speed(2, 0)
         
     def cleanup(self):
+        self.set_dir_servo_angle(0)
+        self.set_camera_servo1_angle(0)
+        self.set_camera_servo2_angle(0)
         self.stop()
 
     def Get_distance(self):

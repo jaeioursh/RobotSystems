@@ -159,9 +159,9 @@ if __name__ == "__main__":
     __reset_mcu__()
     time.sleep(0.01)
 
-#     try:
-#         # dir_servo_angle_calibration(-10) 
-#         while 1:
-#             test()
+ #    try:
+         # dir_servo_angle_calibration(-10) 
+ #        while 1:
+ #            test()
 #     finally: 
 #         stop()

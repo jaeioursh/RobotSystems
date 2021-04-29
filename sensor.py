@@ -3,6 +3,8 @@ import numpy as np
 import time
 
 from ezblock import ADC
+from ezblock import Pin
+from ezblock import Ultrasonic
 #from ezblock import print
 
 
@@ -20,6 +22,20 @@ class Sensor:
     def read_ground(self):
 
         return [self.adc_A0.read(), self.adc_A1.read(), self.adc_A2.read()]
+
+class Sensor2:
+    
+    def __init__(self):
+
+
+        self.pin_D0=Pin("D0")
+
+        self.pin_D1=Pin("D1")
+
+    def read_dist(self):
+
+        return Ultrasonic(self.pin_D0, self.pin_D1).read()
+
 
 class Interpretor:
 
@@ -43,8 +59,10 @@ if __name__=="__main__":
     __reset_mcu__()
     time.sleep(0.01)
     sensor=Sensor()
+    sensor2=Sensor2()
     inter=Interpretor(500,1.0)
     while 1:
         val=sensor.read_ground()
-        print(val,inter.transform(val))
+        val2=sensor2.read_dist()
+        print(val,inter.transform(val),val2)
         time.sleep(0.5)

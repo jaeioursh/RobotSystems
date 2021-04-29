@@ -3,22 +3,25 @@ from motor import Motor
 from time import sleep
 import time
 
-from threading import Lock
+from readerwriterlock import rwlock
 import concurrent.futures
 
 class Bus:
     def __init__(self):
+        self.lock=rwlock.RWLockWriteD()
         self.message=None
 
     def write(self,data):
-        self.message=data
+        with self.lock.gen_wlock():
+            self.message=data
 
     def read(self):
-        return self.message
+        with self.lock.gen_rlock():
+            return self.message
 
 def sensor_function(vals_bus,delay):
     sensor=Sensor()
-    lock=Lock()
+    #lock=Lock()
     while 1:
         with lock:
             val=sensor.read_ground()

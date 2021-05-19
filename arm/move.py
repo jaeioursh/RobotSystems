@@ -1,4 +1,10 @@
-import HiwonderSDK.Board as Board
+try:
+    import HiwonderSDK.Board as Board
+except:
+    class Board:
+        def setBusServoPulse(idx, angle, speed):
+            pass
+
 from time import sleep
 import numpy as np
 from copy import deepcopy as copy
@@ -37,7 +43,7 @@ class Move:
     def position(self,angles,goal):
         a=angles
         l=self.lengths
-        R=[rx(a[0]), rz(-a[1]), rz(a[2]), rz(-a[3])]
+        R=[rx(a[0]), rz(a[1]), rz(a[2]), rz(a[3])]
         L=[dst(l[0]),dst(l[1]),dst(l[2])]
         Lsum=np.zeros((3,1))
         for i in range(3):
@@ -50,8 +56,8 @@ class Move:
     def IK(self,x,y,z):
         angles=[0.0 for i in range(4)]
         goal=np.array([[x],[y],[z]])
-        step=20.0
-        while step>1:
+        step=40.0
+        while step>.001:
             
             for i in range(4):
                 
@@ -82,9 +88,9 @@ class Move:
                         angles[i]-=dir*step
                         break
                     prev=score
-                angles=np.clip(angles,-115,115)
+                angles=np.clip(angles,-110,110)
  
-            step/=4.0
+            step/=2.0
 
         return angles
         
@@ -96,8 +102,8 @@ class Move:
     def motor(self,angles,speed):
         ids=[6,5,4,3]
         angles=copy(angles)
-        angles[1]*=-1
-        angles[3]*=-1
+        angles[0]*=-1
+        angles[2]*=-1
         for i in range(4):
             self.set_angle(ids[i], angles[i], speed)
         sleep(speed/1000)
@@ -124,5 +130,5 @@ if __name__=="__main__":
     print(move.position(pos,np.array([g]).T))
     pos=[0,0,0,0]
     #pos=[-45,45,45,45]
-    move.motor(pos,1000)
+    #move.motor(pos,1000)
 

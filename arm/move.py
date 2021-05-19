@@ -38,7 +38,7 @@ def dst(length):
 class Move:
 
     def __init__(self):
-        self.lengths=[10.,10.,6.0]
+        self.lengths=[10.,10.,16.0]
 
     def position(self,angles,goal):
         a=angles
@@ -57,7 +57,7 @@ class Move:
         angles=[0.0 for i in range(4)]
         goal=np.array([[x],[y],[z]])
         step=40.0
-        while step>.001:
+        while step>.01:
             
             for i in range(4):
                 
@@ -103,7 +103,8 @@ class Move:
         ids=[6,5,4,3]
         angles=copy(angles)
         angles[0]*=-1
-        angles[2]*=-1
+        angles[1]*=-1
+        angles[3]*=-1
         for i in range(4):
             self.set_angle(ids[i], angles[i], speed)
         sleep(speed/1000)
@@ -124,11 +125,11 @@ if __name__=="__main__":
     #move.close()
     #move.motor([0,0,0,0],1000)
     #print(move.position([90,0,90,90]))
-    g=[10,10,0]
+    g=[0,10,10]
     pos=move.IK(g[0],g[1],g[2])
     print(pos)
     print(move.position(pos,np.array([g]).T))
     pos=[0,0,0,0]
-    #pos=[-45,45,45,45]
-    #move.motor(pos,1000)
+    #pos=[45,45,45,45]
+    move.motor(pos,2000)
 

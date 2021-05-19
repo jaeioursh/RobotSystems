@@ -136,12 +136,14 @@ if __name__=="__main__":
     #move.close()
     #move.motor([0,0,0,0],1000)
     
-    g=[0,-2,15]
+    g=[-3,-10,10]
     print(move.position([90,90,0,90],np.array([g]).T))
     pos=move.IK2(g[0],g[1],g[2])
     print(pos)
     print(move.position(pos,np.array([g]).T))
-    pos=[0,0,0,0]
+    #pos=[0,0,0,0]
     #pos=[45,45,45,45]
-    move.motor(pos,2000)
+    move.motor(pos,3000)
+    pos=[0,0,0,0]
+    move.motor(pos,3000)
 

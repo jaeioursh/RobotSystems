@@ -5,6 +5,7 @@ from time import sleep
 class Sensor:
     def __init__(self):
         self.camera=cv2.VideoCapture(-1)
+        self.camera.set(10, 1.0)
         img=self.capture()
 
     def capture(self):
@@ -58,7 +59,7 @@ class Sensor:
 
     def identify(self,im,draw=1):
         #           red      green      blue
-        colors=[[10,20,110],[10,20,20],[100,50,50]]
+        colors=[[10,0,60],[10,20,20],[100,50,50]]
         boxes=[]
         for c in colors:
             mask=self.color_mask(im,c)

@@ -56,7 +56,7 @@ class Move:
     def IK(self,x,y,z):
         angles=[0.0 for i in range(4)]
         goal=np.array([[x],[y],[z]])
-        step=40.0
+        step=10.0
         while step>.01:
             
             for i in range(4):
@@ -93,6 +93,17 @@ class Move:
             step/=2.0
 
         return angles
+    
+    def IK2(self,x,y,z):
+        soln=np.array([0.0 for i in range(4)])
+        goal=np.array([[x],[y],[z]])
+
+        for i in range(300):
+            solns=[soln]+[np.clip(soln+np.random.normal(0,5,4) , -110,110) for i in range(20)]
+            scores=[-self.position(s,goal)[1]-0.0001*np.sum(np.abs(s)) for s in solns]
+            idx=np.argmax(scores)
+            soln=solns[idx]
+        return soln
         
     #1:claw, 2:turn, 3: wrist, 4:  elbow, 5: shoulder:, 6 turn 
     def set_angle(self,idx,angle,speed):
@@ -124,9 +135,10 @@ if __name__=="__main__":
     #move.open()
     #move.close()
     #move.motor([0,0,0,0],1000)
-    #print(move.position([90,0,90,90]))
-    g=[0,10,10]
-    pos=move.IK(g[0],g[1],g[2])
+    
+    g=[0,-2,15]
+    print(move.position([90,90,0,90],np.array([g]).T))
+    pos=move.IK2(g[0],g[1],g[2])
     print(pos)
     print(move.position(pos,np.array([g]).T))
     pos=[0,0,0,0]

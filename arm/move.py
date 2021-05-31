@@ -38,7 +38,7 @@ def dst(length):
 class Move:
 
     def __init__(self):
-        self.lengths=[10.,10.,16.0]
+        self.lengths=[10.,10.,16.0+2.5]
 
     def position(self,angles,goal):
         a=angles
@@ -53,8 +53,8 @@ class Move:
         score=np.sqrt(np.sum((goal-Lsum)**2.0))
         return Lsum,score
     
-    def IK(self,x,y,z):
-        angles=[0.0 for i in range(4)]
+    def IK(self,x,y,z,angles=[0.0 for i in range(4)]):
+        angles=[a for a in angles]
         goal=np.array([[x],[y],[z]])
         step=10.0
         while step>.01:
@@ -94,20 +94,21 @@ class Move:
 
         return angles
     
-    def IK2(self,x,y,z):
-        soln=np.array([0.0 for i in range(4)])
+    def IK2(self,x,y,z,soln=[0 for i in range(4)]):
+        soln=np.array(soln).copy()
         goal=np.array([[x],[y],[z]])
 
         for i in range(300):
-            solns=[soln]+[np.clip(soln+np.random.normal(0,5,4) , -110,110) for i in range(20)]
-            scores=[-self.position(s,goal)[1]-0.0001*np.sum(np.abs(s)) for s in solns]
+            solns=[soln]+[np.clip(soln+np.random.normal(0,2,4) , -110,110) for i in range(20)]
+            scores=[-self.position(s,goal)[1]-0.000*np.sum(np.abs(s)) for s in solns]
             idx=np.argmax(scores)
             soln=solns[idx]
+        print(max(scores))
         return soln
         
     #1:claw, 2:turn, 3: wrist, 4:  elbow, 5: shoulder:, 6 turn 
     def set_angle(self,idx,angle,speed):
-        angle=500-angle/90.0*400
+        angle=500-angle/90.0*370
         Board.setBusServoPulse(idx, int(angle), speed)
     
     def motor(self,angles,speed):
@@ -127,8 +128,10 @@ class Move:
 
     def close(self,speed=350):
         self.set_angle(2, 0, speed)
-        self.set_angle(1, 15, speed)
+        self.set_angle(1, -15, speed)
         sleep(speed/1000)
+    def home(self):
+        self.motor([0,45,-90,-90],2000)
         
 if __name__=="__main__":
     move=Move()
@@ -136,14 +139,17 @@ if __name__=="__main__":
     #move.close()
     #move.motor([0,0,0,0],1000)
     
-    g=[-3,-10,10]
-    print(move.position([90,90,0,90],np.array([g]).T))
+    g=[10,-10,0]
+    move.home()
+    #print(move.position([90,90,0,90],np.array([g]).T))
     pos=move.IK2(g[0],g[1],g[2])
     print(pos)
-    print(move.position(pos,np.array([g]).T))
+    #print(pos)
+    #print(move.position(pos,np.array([g]).T))
     #pos=[0,0,0,0]
     #pos=[45,45,45,45]
-    move.motor(pos,3000)
-    pos=[0,0,0,0]
-    move.motor(pos,3000)
+    #move.motor(pos,3000)
+    #pos=[0,0,0,0]
+    #move.motor(pos,3000)
+    #move.close()
 

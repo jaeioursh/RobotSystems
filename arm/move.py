@@ -38,7 +38,7 @@ def dst(length):
 class Move:
 
     def __init__(self):
-        self.lengths=[10.,10.,16.0+2.5]
+        self.lengths=[10.,10.,16.0+4.0]
 
     def position(self,angles,goal):
         a=angles
@@ -140,6 +140,7 @@ if __name__=="__main__":
     #move.motor([0,0,0,0],1000)
     
     g=[10,-10,0]
+    move.open()
     move.home()
     #print(move.position([90,90,0,90],np.array([g]).T))
     pos=move.IK2(g[0],g[1],g[2])
@@ -151,5 +152,5 @@ if __name__=="__main__":
     #move.motor(pos,3000)
     #pos=[0,0,0,0]
     #move.motor(pos,3000)
-    #move.close()
+    move.close()
 

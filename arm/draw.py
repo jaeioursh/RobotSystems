@@ -32,11 +32,10 @@ def write(string,move,dx,dy,paths):
         angs=move.IK2(0,-(x+i+dx),y+dy,angs)
         print(angs)
         move.motor(angs,1000)
-    i+=1    
+        i+=1
 
 move=Move()
 write("012",move,20,0,paths)
-move.home()        
-
+move.home()
 
         

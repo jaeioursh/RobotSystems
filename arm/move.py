@@ -138,13 +138,17 @@ if __name__=="__main__":
     #move.open()
     #move.close()
     #move.motor([0,0,0,0],1000)
+
+    move.set_angle(2, 0, 350)
+    move.set_angle(1, -10, 350)
+    sleep(350/1000)
     
-    g=[10,-10,0]
-    move.open()
-    move.home()
+    ##g=[10,-10,0]
+    ##move.open()
+    ##move.home()
     #print(move.position([90,90,0,90],np.array([g]).T))
-    pos=move.IK2(g[0],g[1],g[2])
-    print(pos)
+    ##pos=move.IK2(g[0],g[1],g[2])
+    ##print(pos)
     #print(pos)
     #print(move.position(pos,np.array([g]).T))
     #pos=[0,0,0,0]
